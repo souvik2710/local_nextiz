@@ -1,5 +1,5 @@
 name: nextiz
-description: A new Flutter project.
+description: A Event Management App.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -45,6 +45,7 @@ dependencies:
   http: ^0.13.4
   intl: ^0.17.0
   cached_network_image: ^3.2.0
+  flutter_svg: ^1.0.3
 
 dev_dependencies:
   flutter_test:

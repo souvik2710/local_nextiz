@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nextiz/common/properties/color.dart';
+import 'package:nextiz/view_model.dart';
+import 'package:nextiz/webview/layout.dart';
+
+import '../../webview/webview_secondary.dart';
 
 class CommonTextField extends StatelessWidget {
   final textEditingController;
@@ -142,7 +147,7 @@ void changeControllerStateForError({required TextEditingController controller} )
 }
 
 
-class EventTextField extends StatelessWidget {
+class EventTextField extends HookConsumerWidget {
   final textEditingController;
   final hintText;
   final validator;
@@ -183,7 +188,7 @@ class EventTextField extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -218,7 +223,30 @@ class EventTextField extends StatelessWidget {
 
                   elevation: 4,
                   ),
-              onPressed: (){},
+              onPressed: ()async{
+                // https://events-dev-ecs.nextiz.com/events/test-14-vikas?access_token=134|01845a45c106a82fcd1bcd8379ae90e08c90d71c1fe90fbc1a510b0a57608fd1&hide_header=true
+                 String trimString = textEditingController.text.toString().trim();
+                 debugPrint('Entered link is -->$trimString');
+                 debugPrint('${trimString.substring(0,4)}');
+                // https://nextiz-user-dev.nextiz.com/events/theme-4-webinar
+                if('${trimString.substring(0,4)}'=='http'){
+
+                }else{
+                  trimString = 'https://nextiz-user-dev.nextiz.com/events/' + trimString;
+                }
+
+                ///////////////
+                 await ref.read(mainBasicChangeProvider).vmGetEventsByEventUrl('$trimString');
+
+                 //////////////////
+                if(ref.read(mainBasicChangeProvider).mainToken!=''){
+                  trimString = trimString + '?access_token=${ref.read(mainBasicChangeProvider).mainToken}&hide_header=true';
+                }else{
+                  trimString = trimString + '?hide_header=true';
+                }
+                 debugPrint('Final String -->$trimString');
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SecondaryMainWebView(initialUrl: '$trimString',onlyEvents: true,)));
+              },
               ),
     //           suffix: IconButton(
     //           onPressed: (){},

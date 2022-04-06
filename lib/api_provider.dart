@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'models/get_all_events_model.dart';
+import 'models/get_event_by_url.dart';
 import 'models/login_model.dart';
 import 'package:http/http.dart' as http;
 
 import 'models/otp_verification_model.dart';
+import 'models/profile_model.dart';
 
 final apiServiceProvider = Provider<ApiProvider>((ref) {
   return ApiProvider();
@@ -80,7 +82,61 @@ class ApiProvider {
     debugPrint('${response.statusCode}');
     if (response.statusCode == 200) {
       debugPrint('%%%%%%%%%%${response.statusCode}%%%%%%%%%%');
+      final tempGetAllEvents = GetAllEvents.fromJson(responseString);
+      debugPrint('rrr${tempGetAllEvents.data }');
+      // if(tempGetAllEvents.data ==null){
+      //   tempGetAllEvents.data =[];
+      // }
       return GetAllEvents.fromJson(responseString);
+    } else {
+      throw Exception('failed to load details of all events');
+    }
+  }
+
+
+  Future<ProfileModel> getProfile() async {
+    final thisUrl = "${STAGING_URL}userDetails";
+    final response = await http.get(Uri.parse(thisUrl),
+        headers: Globals.apiHeaders
+    );
+    debugPrint('%%%%%%%%%%%%%%$response%%%%%');
+    debugPrint("${STAGING_URL}userDetails");
+    final responseString = jsonDecode(response.body);
+    debugPrint('########$responseString########');
+    debugPrint('${response.statusCode}');
+    if (response.statusCode == 200) {
+      debugPrint('%%%%%%%%%%${response.statusCode}%%%%%%%%%%');
+      return ProfileModel.fromJson(responseString);
+    } else {
+      throw Exception('failed to load profile details of all events');
+    }
+  }
+
+
+
+
+  Future<GetEventByUrl> getEventsByEventUrl(String eventUrl) async {
+    final thisUrl = "${STAGING_URL}getEventByLink";
+    final response = await http.post(Uri.parse(thisUrl),
+        headers: Globals.apiHeaders,
+      body: jsonEncode({
+        "link": "$eventUrl"
+      }),
+    );
+    debugPrint("LINK ---> $eventUrl");
+    debugPrint('%%%%%%%%%%%%%%$response%%%%%');
+    debugPrint("${STAGING_URL}getEventByLink");
+    final responseString = jsonDecode(response.body);
+    debugPrint('########$responseString########');
+    debugPrint('${response.statusCode}');
+    if (response.statusCode == 200) {
+      debugPrint('%%%%%%%%%%${response.statusCode}%%%%%%%%%%');
+      final tempGetAllEvents = GetEventByUrl.fromJson(responseString);
+      debugPrint('rrr${tempGetAllEvents.data }');
+      // if(tempGetAllEvents.data ==null){
+      //   tempGetAllEvents.data =[];
+      // }
+      return GetEventByUrl.fromJson(responseString);
     } else {
       throw Exception('failed to load details of all events');
     }
@@ -90,10 +146,13 @@ class ApiProvider {
 
 
 class Globals{
+  // static Map<String, String> apiHeaders ={
+  //   'content-Type': 'application/json',
+  //   'Accept': 'application/json',
+  //   'Authorization': 'Bearer 43|62wHZkUf5hJYm0BYI18JoTR3UMGjeXptrABUszvx',
+  // };
   static Map<String, String> apiHeaders ={
     'content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': 'Bearer 43|62wHZkUf5hJYm0BYI18JoTR3UMGjeXptrABUszvx',
   };
 }
 // 32|lgn5juQsA1fbNwRQp7KFdSeogt4LLlYix8lIAgsR

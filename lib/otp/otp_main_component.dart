@@ -7,6 +7,8 @@ import 'package:nextiz/events/backup.dart';
 import 'package:pinput/pinput.dart';
 
 import '../events/layout.dart';
+import '../events/sliver_layout.dart';
+import '../routes.dart';
 import '../view_model.dart';
 
 
@@ -103,7 +105,7 @@ class PinPutViewState extends ConsumerState<PinPutView> {
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
       onSubmitted: (String pin) {
-        _showSnackBar(pin);
+        // _showSnackBar(pin);
       },
       validator: (s) {
         if(s!.length==6){
@@ -115,12 +117,14 @@ class PinPutViewState extends ConsumerState<PinPutView> {
         if(s.length==6 && s==ref.read(mainBasicChangeProvider).loginOtpModelResponse.otp.toString()){
 
          final fetchedHeader = ref.read(mainBasicChangeProvider).otpVerificationResponse.token;
+         ref.read(mainBasicChangeProvider).mainToken = ref.read(mainBasicChangeProvider).otpVerificationResponse.token;
          Globals.apiHeaders ={
            'content-Type': 'application/json',
            'Accept': 'application/json',
            'Authorization': 'Bearer $fetchedHeader',
          };
-         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EventListPage()));
+         // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SliverEventListPage()));
+         Navigator.of(context).pushNamed(AppRoutes.events);
          return null;
         }else{
           return'Pin is incorrect';

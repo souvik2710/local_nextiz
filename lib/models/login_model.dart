@@ -19,14 +19,14 @@ class LoginOtpModel {
     required this.errorMessage,
   });
 
-  int status;
-  String message;
+  int? status;
+  String? message;
   User? user;
-  String token;
-  int otp;
-  String errorMessage;
+  String? token;
+  int? otp;
+  String? errorMessage;
 
-  factory LoginOtpModel.fromJson(Map<String, dynamic> json) => LoginOtpModel(
+  factory LoginOtpModel.fromJson(Map<String?, dynamic> json) => LoginOtpModel(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
@@ -35,7 +35,7 @@ class LoginOtpModel {
     errorMessage: json["error_message"] == null ? null : json["error_message"],
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
     "status": status == null ? null : status,
     "message": message == null ? null : message,
     "user": user == null ? null : user!.toJson(),
@@ -65,38 +65,38 @@ class User {
     required this.provider,
     required this.accessToken,
     required this.emailVerifiedAt,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
+    // required this.createdAt,
+    // required this.updatedAt,
+    // required this.deletedAt,
     required this.loginStatus,
     required this.deviceDetails,
   });
 
-  int id;
-  int parentId;
-  String name;
+  int? id;
+  int? parentId;
+  String? name;
   dynamic username;
-  String email;
+  String? email;
   dynamic role;
-  String avatar;
+  String? avatar;
   dynamic featuredImage;
-  String status;
-  int isAdmin;
-  int isVoice;
-  int otp;
-  int otpStatus;
+  String? status;
+  int? isAdmin;
+  int? isVoice;
+  int? otp;
+  int? otpStatus;
   DateTime? otpCreateDatetime;
   dynamic providerId;
   dynamic provider;
   dynamic accessToken;
   dynamic emailVerifiedAt;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  dynamic deletedAt;
-  int loginStatus;
-  String deviceDetails;
+  // DateTime? createdAt;
+  // DateTime? updatedAt;
+  // dynamic deletedAt;
+  int? loginStatus;
+  String? deviceDetails;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory User.fromJson(Map<String?, dynamic> json) => User(
     id: json["id"] == null ? null : json["id"],
     parentId: json["parent_id"] == null ? null : json["parent_id"],
     name: json["name"] == null ? null : json["name"],
@@ -115,14 +115,14 @@ class User {
     provider: json["provider"],
     accessToken: json["access_token"],
     emailVerifiedAt: json["email_verified_at"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    deletedAt: json["deleted_at"],
+    // createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    // deletedAt: json["deleted_at"],
     loginStatus: json["login_status"] == null ? null : json["login_status"],
     deviceDetails: json["device_details"] == null ? null : json["device_details"],
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
     "id": id == null ? null : id,
     "parent_id": parentId == null ? null : parentId,
     "name": name == null ? null : name,
@@ -141,9 +141,9 @@ class User {
     "provider": provider,
     "access_token": accessToken,
     "email_verified_at": emailVerifiedAt,
-    "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
-    "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
-    "deleted_at": deletedAt,
+    // "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
+    // "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
+    // "deleted_at": deletedAt,
     "login_status": loginStatus == null ? null : loginStatus,
     "device_details": deviceDetails == null ? null : deviceDetails,
   };

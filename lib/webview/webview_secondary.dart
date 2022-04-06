@@ -12,12 +12,12 @@ import '../common/widgets/pop_up_actions_appbar.dart';
 import '../events/layout.dart';
 import '../view_model.dart';
 
-class MainWebView extends HookConsumerWidget {
+class SecondaryMainWebView extends HookConsumerWidget {
   final String initialUrl;
   int indexPass;
   int selectedIndex;
   bool onlyEvents;
-  MainWebView({required this.initialUrl,this.indexPass=0, this.selectedIndex =0,this.onlyEvents=false});
+  SecondaryMainWebView({required this.initialUrl,this.indexPass=0, this.selectedIndex =0,this.onlyEvents=false});
 
 
   @override
@@ -29,8 +29,8 @@ class MainWebView extends HookConsumerWidget {
     //   checkNow.value = !checkNow.value;
     // }
     final Completer<WebViewController> _controller = Completer<WebViewController>();
-    final watchBaseUrl =  !onlyEvents? null:ref.watch(mainBasicChangeProvider).getAllEventsResponse.baseUrl;
-    final watchBottomNavigationList = !onlyEvents? null:ref.watch(mainBasicChangeProvider).getAllEventsResponse.data![indexPass].tabs;
+    final watchBaseUrl =  !onlyEvents? null:ref.watch(mainBasicChangeProvider).getEventByUrlResponse.baseUrl;
+    final watchBottomNavigationList = !onlyEvents? null:ref.watch(mainBasicChangeProvider).getEventByUrlResponse.data![indexPass].tabs;
     // final webController = use
     return Scaffold(
       appBar: onlyEvents?AppBar(backgroundColor: Colors.white,
@@ -80,7 +80,7 @@ class MainWebView extends HookConsumerWidget {
             icon: InkWell(
               onTap: (){
                 mainSelectedIndex.value = index;
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainWebView(
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SecondaryMainWebView(
                   onlyEvents: true,
                   initialUrl: '${watchBottomNavigationList[index].link}',
                   indexPass: indexPass,selectedIndex: index,)));
@@ -94,7 +94,7 @@ class MainWebView extends HookConsumerWidget {
                   children: [
                     Image.network('$watchBaseUrl${watchBottomNavigationList[index].icon}'),
                     // Text('${watchBottomNavigationList[index].tabName}',
-                      // style: TextStyle(color: mainSelectedIndex==index?Colors.black:Colors.grey),)
+                    // style: TextStyle(color: mainSelectedIndex==index?Colors.black:Colors.grey),)
                   ],
                 ),),
             ),
@@ -116,38 +116,38 @@ class MainWebView extends HookConsumerWidget {
           // ),
         ],
       ):null,
-       body: SafeArea(
-         child: WebView(
-            initialUrl: '$initialUrl',
-           // https://flutter.dev
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              // _controller.complete(webViewController);
-            },
-            onProgress: (int progress) {
-              print('WebView is loading (progress : $progress%)');
-            },
-            javascriptChannels: <JavascriptChannel>{
-              // _toasterJavascriptChannel(context),
-            },
-            navigationDelegate: (NavigationRequest request) {
-              if (request.url.startsWith('https://www.youtube.com/')) {
-                print('blocking navigation to $request}');
-                return NavigationDecision.prevent;
-              }
-              print('allowing navigation to $request');
-              return NavigationDecision.navigate;
-            },
-            onPageStarted: (String url) {
-              print('Page started loading: $url');
-            },
-            onPageFinished: (String url) {
-              print('Page finished loading: $url');
-            },
-            gestureNavigationEnabled: true,
-            backgroundColor: const Color(0x00000000),
-          ),
-       ),
+      body: SafeArea(
+        child: WebView(
+          initialUrl: '$initialUrl',
+          // https://flutter.dev
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            // _controller.complete(webViewController);
+          },
+          onProgress: (int progress) {
+            print('WebView is loading (progress : $progress%)');
+          },
+          javascriptChannels: <JavascriptChannel>{
+            // _toasterJavascriptChannel(context),
+          },
+          navigationDelegate: (NavigationRequest request) {
+            if (request.url.startsWith('https://www.youtube.com/')) {
+              print('blocking navigation to $request}');
+              return NavigationDecision.prevent;
+            }
+            print('allowing navigation to $request');
+            return NavigationDecision.navigate;
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+          },
+          onPageFinished: (String url) {
+            print('Page finished loading: $url');
+          },
+          gestureNavigationEnabled: true,
+          backgroundColor: const Color(0x00000000),
+        ),
+      ),
     );
   }
 }

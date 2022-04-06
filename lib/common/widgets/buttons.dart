@@ -14,11 +14,13 @@ class CommonWrapElevatedButtonWithIcon extends HookConsumerWidget {
   double outSidePadding;
   double sizeType;
   Color colorType;
-  Icon? icon;
+  Widget? icon;
+  bool isEnabled;
   //isMobile, insideVerticalPadding, outSidePadding are optional
   //CommonElevatedButton
 
   CommonWrapElevatedButtonWithIcon({
+    this.isEnabled = true,
     this.isCapsule = false,
     required this.buttonText,
     required this.onbuttonPressed,
@@ -36,7 +38,6 @@ class CommonWrapElevatedButtonWithIcon extends HookConsumerWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: outSidePadding),
       child:  buttonText!= ''?ElevatedButton.icon(
-
         style: ElevatedButton.styleFrom(
           primary: colorState.value,
           side: BorderSide(width: 1.0, color: colorType,),
@@ -58,7 +59,7 @@ class CommonWrapElevatedButtonWithIcon extends HookConsumerWidget {
           // colorState.value = colorType;
           colorState.value = Colors.white;
         },
-        onPressed: onbuttonPressed,
+        onPressed:isEnabled? onbuttonPressed:null,
         icon:  Text(
           '$buttonText',
           overflow: TextOverflow.ellipsis,

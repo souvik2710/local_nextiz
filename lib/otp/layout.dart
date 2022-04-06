@@ -10,13 +10,16 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 
 class OtpPage extends HookConsumerWidget {
-  const OtpPage({Key? key}) : super(key: key);
+  final String otpPass;
+  OtpPage({required this.otpPass});
+  // const OtpPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     final correctOtp = ref.read(mainBasicChangeProvider).loginOtpModelResponse.otp;
     final otpController = useTextEditingController();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Expanded(flex:2,child: Container(
@@ -56,7 +59,7 @@ class OtpPage extends HookConsumerWidget {
                         fontSize: 13),),
                         Row(
                           children: [
-                            Text('xyz@nextiz.com',style: TextStyle(color: Colors.blue,decoration:TextDecoration.underline,fontSize: 13),),
+                            Text('$otpPass',style: TextStyle(color: Colors.blue,decoration:TextDecoration.underline,fontSize: 13),),
                             InkWell(
                               onTap: (){
                                 Navigator.of(context).pop();
@@ -86,11 +89,29 @@ class OtpPage extends HookConsumerWidget {
                          child: RichText(
 
                              text: TextSpan(
-                                 text: 'Did`t get code? ',
+                                 text: 'Didn`t get code? ',
                                  style: TextStyle(color: NextizColors.secondaryColor,fontSize: 13),
                                  children: [
-                                   TextSpan(text: 'Resend code',style: TextStyle(decoration: TextDecoration.underline,
-                                   color: NextizColors.blueVariantColor)),
+                                   WidgetSpan(child:InkWell(
+                                       onTap: () async{
+                                         await ref.read(mainBasicChangeProvider).vmGetOTPResponse(emailPass: "$otpPass");
+                                         final String otpString = ref.read(mainBasicChangeProvider).loginOtpModelResponse.otp.toString();
+                                         debugPrint("OTP ->>>> $otpString");
+                                         if( ref.read(mainBasicChangeProvider).loginOtpModelResponse.status ==200) {
+                                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: const Duration(seconds: 3),content: new Text(" Otp sent successfully!")));
+                                           await ref.read(mainBasicChangeProvider).vmVerifyOTPResponse(emailPass: "$otpPass", otp: "$otpString");
+                                           // Navigator.of(context).push(MaterialPageRoute(builder: (context) => OtpPage(otpPass: "${emailController.text.toString().trim()}",)));
+                                         }else{
+                                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: const Duration(seconds: 4),content: new Text(" Email not exist!")));
+                                         }
+
+                                       },
+                                       child: Text( 'Resend code',style: TextStyle(fontSize: 13, color:NextizColors.blueVariantColor,decoration: TextDecoration.underline),)),
+                                   //     ,style: TextStyle(fontSize: 13,
+                                   //     fontFamily: 'Poppins',
+                                   //     decoration: TextDecoration.underline,
+                                   // color: Colors.red)
+                  ),
                                    TextSpan()
                                  ]
                              )

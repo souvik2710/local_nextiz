@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nextiz/login/demo.dart';
 
+import 'events/sliver_layout.dart';
 import 'login/layout.dart';
 
 class AppRoutes {
@@ -10,6 +11,7 @@ class AppRoutes {
   static const demo = '/demo';
   static const login= '/login';
   static const template= '/template';
+  static const events = '/events';
 }
 
 class AppRouter {
@@ -32,6 +34,12 @@ class AppRouter {
       case AppRoutes.demo:
         return MaterialPageRoute<dynamic>(
           builder: (_) => DemoPage(),
+          settings: settings,
+          fullscreenDialog: true,
+        );
+      case AppRoutes.events:
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => SliverEventListPage(),
           settings: settings,
           fullscreenDialog: true,
         );

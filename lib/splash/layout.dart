@@ -7,7 +7,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_hooks/src/hooks.dart';
 
+import '../api_provider.dart';
 import '../common/widgets/main_logo.dart';
+import '../events/sliver_layout.dart';
 import '../login/layout.dart';
 
 class SplashScreen extends HookConsumerWidget {
@@ -19,7 +21,9 @@ class SplashScreen extends HookConsumerWidget {
       // ref.read(posChangeProvider).isCurrentOrderLoading = true;
       SchedulerBinding.instance!.addPostFrameCallback((_) {
         Timer(Duration(seconds:3), ()=>Navigator.pushReplacement(context, MaterialPageRoute(builder:
-                    (context) => LoginPage()
+                    (context) {
+                      return Globals.apiHeaders['Authorization']!=''?SliverEventListPage():LoginPage();
+                    }
                 )
             )
         );

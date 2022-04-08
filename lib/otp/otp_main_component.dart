@@ -5,6 +5,7 @@ import 'package:nextiz/api_provider.dart';
 import 'package:nextiz/common/properties/color.dart';
 import 'package:nextiz/events/backup.dart';
 import 'package:pinput/pinput.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../events/layout.dart';
 import '../events/sliver_layout.dart';
@@ -118,6 +119,11 @@ class PinPutViewState extends ConsumerState<PinPutView> {
 
          final fetchedHeader = ref.read(mainBasicChangeProvider).otpVerificationResponse.token;
          ref.read(mainBasicChangeProvider).mainToken = ref.read(mainBasicChangeProvider).otpVerificationResponse.token;
+         tempFunction() async{
+           SharedPreferences prefs = await SharedPreferences.getInstance();
+           prefs.setString('bearerToken', '$fetchedHeader');
+         };
+         tempFunction();
          Globals.apiHeaders ={
            'content-Type': 'application/json',
            'Accept': 'application/json',

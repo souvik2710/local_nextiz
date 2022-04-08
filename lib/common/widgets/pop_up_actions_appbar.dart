@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nextiz/login/layout.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api_provider.dart';
 import '../../view_model.dart';
@@ -37,8 +38,11 @@ void handleClick(String value,BuildContext context,WidgetRef ref) async{
     case 'Logout':
       Globals.apiHeaders ={
         'content-Type': 'application/json',
+        'Accept': 'application/json',
 
       };
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('bearerToken');
       Future<void>.delayed(
           const Duration(),
       () {

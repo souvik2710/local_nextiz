@@ -21,12 +21,12 @@ class GetEventByUrl {
   });
 
   int status;
-  String message;
-  String errorMessage;
-  String baseUrl;
+  String? message;
+  String? errorMessage;
+  String? baseUrl;
   List<Datum>? data;
 
-  factory GetEventByUrl.fromJson(Map<String, dynamic> json) => GetEventByUrl(
+  factory GetEventByUrl.fromJson(Map<String?, dynamic> json) => GetEventByUrl(
     status: json["status"] == null ? null : json["status"],
     message: json["message"] == null ? null : json["message"],
     errorMessage: json["error_message"] == null ? null : json["error_message"],
@@ -34,7 +34,7 @@ class GetEventByUrl {
     data: json["data"] == null ? null : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
     "status": status == null ? null : status,
     "message": message == null ? null : message,
     "error_message": errorMessage == null ? null : errorMessage,
@@ -56,15 +56,15 @@ class GetEventByUrl {
 //   });
 //
 //   int id;
-//   String title;
-//   String eventType;
+//   String? title;
+//   String? eventType;
 //   dynamic eventBanner;
-//   String eventTiming;
-//   String previewUrl;
+//   String? eventTiming;
+//   String? previewUrl;
 //   bool registered;
 //   List<Tab>? tabs;
 //
-//   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+//   factory Datum.fromJson(Map<String?, dynamic> json) => Datum(
 //     id: json["id"] == null ? null : json["id"],
 //     title: json["title"] == null ? null : json["title"],
 //     eventType: json["event_type"] == null ? null : json["event_type"],
@@ -75,7 +75,7 @@ class GetEventByUrl {
 //     tabs: json["tabs"] == null ? null : List<Tab>.from(json["tabs"].map((x) => Tab.fromJson(x))),
 //   );
 //
-//   Map<String, dynamic> toJson() => {
+//   Map<String?, dynamic> toJson() => {
 //     "id": id == null ? null : id,
 //     "title": title == null ? null : title,
 //     "event_type": eventType == null ? null : eventType,
@@ -94,17 +94,17 @@ class GetEventByUrl {
 //     required this.tabName,
 //   });
 //
-//   String link;
-//   String icon;
-//   String tabName;
+//   String? link;
+//   String? icon;
+//   String? tabName;
 //
-//   factory Tab.fromJson(Map<String, dynamic> json) => Tab(
+//   factory Tab.fromJson(Map<String?, dynamic> json) => Tab(
 //     link: json["link"] == null ? null : json["link"],
 //     icon: json["icon"] == null ? null : json["icon"],
 //     tabName: json["tabName"] == null ? null : json["tabName"],
 //   );
 //
-//   Map<String, dynamic> toJson() => {
+//   Map<String?, dynamic> toJson() => {
 //     "link": link == null ? null : link,
 //     "icon": icon == null ? null : icon,
 //     "tabName": tabName == null ? null : tabName,

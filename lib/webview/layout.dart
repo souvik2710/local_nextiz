@@ -48,13 +48,15 @@ class MainWebView extends HookConsumerWidget {
             child:  ref.watch(mainBasicChangeProvider).isEventLoading || ref.watch(mainBasicChangeProvider).isProfileLoading   ?
             CircleAvatar(
               backgroundColor: NextizColors.secondaryColor,
-              radius: 26,
-            ):InkWell(onTap:()async{
-              handleClick('Logout',context,ref);
-            },
-                child: CircleAvatar(
-                  backgroundColor: NextizColors.secondaryColor,
-                  radius:26,child: Icon(Icons.logout,color: Colors.white,),)
+              radius: 20,
+            ):Center(
+              child: InkWell(onTap:()async{
+                handleClick('Logout',context,ref);
+              },
+                  child: CircleAvatar(
+                    backgroundColor: NextizColors.secondaryColor,
+                    radius:20,child: Icon(Icons.logout,color: Colors.white,size: 18,),)
+              ),
             ),
           ):SizedBox(width: 0,),
 

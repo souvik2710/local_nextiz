@@ -46,6 +46,8 @@ dependencies:
   intl: ^0.17.0
   cached_network_image: ^3.2.0
   flutter_svg: ^1.0.3
+  dependencies:
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:

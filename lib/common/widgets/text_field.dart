@@ -193,8 +193,10 @@ class EventTextField extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 10.0,
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            bottom: 10.0,
+            right: 10,
             // horizontal: 10.0
           ),
           child: TextFormField(
@@ -224,28 +226,41 @@ class EventTextField extends HookConsumerWidget {
                   elevation: 4,
                   ),
               onPressed: ()async{
-                // https://events-dev-ecs.nextiz.com/events/test-14-vikas?access_token=134|01845a45c106a82fcd1bcd8379ae90e08c90d71c1fe90fbc1a510b0a57608fd1&hide_header=true
-                 String trimString = textEditingController.text.toString().trim();
-                 debugPrint('Entered link is -->$trimString');
-                 debugPrint('${trimString.substring(0,4)}');
-                // https://nextiz-user-dev.nextiz.com/events/theme-4-webinar
-                if('${trimString.substring(0,4)}'=='http'){
-
-                }else{
-                  trimString = 'https://nextiz-user-dev.nextiz.com/events/' + trimString;
-                }
+                // // https://events-dev-ecs.nextiz.com/events/test-14-vikas?access_token=134|01845a45c106a82fcd1bcd8379ae90e08c90d71c1fe90fbc1a510b0a57608fd1&hide_header=true
+                //  String trimString = textEditingController.text.toString().trim();
+                //  debugPrint('Entered link is -->$trimString');
+                //  debugPrint('${trimString.substring(0,4)}');
+                // // https://nextiz-user-dev.nextiz.com/events/theme-4-webinar
+                // if('${trimString.substring(0,4)}'=='http'){
+                //
+                // }else{
+                //   trimString = 'https://nextiz-user-dev.nextiz.com/events/' + trimString;
+                // }
 
                 ///////////////
+                String trimString = textEditingController.text.toString().trim();
                  await ref.read(mainBasicChangeProvider).vmGetEventsByEventUrl('$trimString');
+                 //it will work both with slug and also entire url
+
 
                  //////////////////
-                if(ref.read(mainBasicChangeProvider).mainToken!=''){
-                  trimString = trimString + '?access_token=${ref.read(mainBasicChangeProvider).mainToken}&hide_header=true';
+
+                if(await ref.read(mainBasicChangeProvider).getEventByUrlResponse.status ==200){
+                  trimString = ref.read(mainBasicChangeProvider).getEventByUrlResponse.data![0].previewUrl!;
+                  if(ref.read(mainBasicChangeProvider).mainToken!=''){
+                    trimString = trimString + '?access_token=${ref.read(mainBasicChangeProvider).mainToken}&hide_header=true';
+                  }else{
+                    trimString = trimString + '?hide_header=true';
+                  }
+                  debugPrint('Final String -->$trimString');
+                  debugPrint('STATUS ${ref.read(mainBasicChangeProvider).getEventByUrlResponse.status}');
+                  await Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SecondaryMainWebView(initialUrl: '$trimString',onlyEvents: true,)));
                 }else{
-                  trimString = trimString + '?hide_header=true';
+                   FocusManager.instance.primaryFocus?.unfocus();
+                  await ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: const Duration(seconds: 4),content: new Text(" Url does not exist!")));
                 }
-                 debugPrint('Final String -->$trimString');
-                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SecondaryMainWebView(initialUrl: '$trimString',onlyEvents: true,)));
+
+
               },
               ),
     //           suffix: IconButton(

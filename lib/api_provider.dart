@@ -153,6 +153,7 @@ class Globals{
   // };
   static Map<String, String> apiHeaders ={
     'content-Type': 'application/json',
+    'Accept': 'application/json',
   };
 }
 // 32|lgn5juQsA1fbNwRQp7KFdSeogt4LLlYix8lIAgsR

@@ -66,13 +66,13 @@ class SliverEventListPage extends HookConsumerWidget {
               child:  ref.watch(mainBasicChangeProvider).isEventLoading || ref.watch(mainBasicChangeProvider).isProfileLoading   ?
               CircleAvatar(
                 backgroundColor: NextizColors.secondaryColor,
-                radius: 26,
+                radius: 20,
               ):InkWell(onTap:()async{
                 handleClick('Logout',context,ref);
               },
                   child: CircleAvatar(
                     backgroundColor: NextizColors.secondaryColor,
-                    radius:26,child: Icon(Icons.logout,color: Colors.white,),)
+                    radius:20,child: Center(child: Icon(Icons.logout,color: Colors.white,size: 18,)),)
               ),
             ):SizedBox(width: 0,),
             // PopUpAppBar(passWidget:  Padding(
@@ -347,10 +347,49 @@ class EventCardWidget extends HookConsumerWidget {
     String splitTwo = datum.eventTiming!.substring(22,41);
     // debugPrint('Split 1->$splitOne');
     // debugPrint('Split 2->$splitTwo');
-    final dateStart = DateFormat('dd MMMM').format(DateTime.parse('$splitOne'));
-    final timeStart = DateFormat('HH:mm a').format(DateTime.parse('$splitOne'));
-    final dateEnd = DateFormat('dd MMMM').format(DateTime.parse('$splitTwo'));
-    final timeEnd = DateFormat('HH:mm a').format(DateTime.parse('$splitTwo'));
+    // final dateStart = DateFormat('dd MMMM').format(DateTime.parse('$splitOne'));
+    // final dateStartTime = DateTime.parse('$splitOne');
+    // dateStartTime.add(DateTime.parse('$splitOne').timeZoneOffset);
+    // final dateStart = DateFormat('HH:mm a').format(dateStartTime);
+    // final dateStartTime = DateTime.parse('$splitOne');
+    // dateStartTime.add(DateTime.parse('$splitOne').timeZoneOffset);
+    // final dateStart = DateFormat('HH:mm a').format(dateStartTime);
+    // final dateStart = DateTime.now().millisecondsSinceEpoch- (DateTime.now().toUtc()).millisecondsSinceEpoch;
+    // final differenceHours = DateTime.now().toUtc().difference(DateTime.now()).inHours;
+    // final differenceMinutes = DateTime.now().difference(DateTime.now().toUtc()).inMinutes;
+    // final dateStart = differenceHours;
+    // final dateStart = DateTime.parse('$splitOne').millisecondsSinceEpoch;
+    // final timeStart = DateTime.parse('$splitOne').toUtc().millisecondsSinceEpoch;
+    // final checkDifference = DateTime.parse('$splitOne').difference(DateTime.parse('$splitOne').toUtc()).inMinutes;
+    // DateTime now = DateTime.now();
+    // DateTime utc = DateTime.utc(now.year, now.month, now.day,now.hour,   now.minute,  now.second);
+    // final newDiff = now.difference(utc).inMinutes;
+    // debugPrint('A--->$newDiff');
+    // final differenceHours = DateTime.now().toUtc().difference(DateTime.now()).inHours;
+    // final differenceMinutes = DateTime.now().difference(DateTime.now().toUtc()).inMinutes;
+    // final dateStart = DateFormat('HH:mm a').format(DateTime.now().add(Duration(minutes:differenceMinutes )));
+    // final timeStart = DateFormat('HH:mm a').format(DateTime.parse('$splitOne').toLocal());
+    // print(DateTime.parse("2021-01-07T18:05:18").timeZoneName);
+    // final dateStart = DateTime.now().timeZoneName;
+    // final dateStart = DateTime.now().toLocal().difference(DateTime.now().toUtc());
+    // final dateStart = DateFormat('dd MMMM').format(DateTime.parse('$splitOne'));
+    // final dateStart = DateFormat('dd MMMM').format(DateTime.parse('$splitOne'));
+    // final timeStart = DateFormat('HH:mm a').format(DateTime.parse('$splitOne'));
+    // debugPrint('KKKK->${DateTime.now().millisecondsSinceEpoch}');
+    // debugPrint('MMMKKKK->${DateTime.utcNow.millisecondsSinceEpoch}');
+    // final dateStart =  DateFormat('dd MMMM').format(DateTime.parse('$splitOne'));
+    // final timeStart = DateFormat('HH:mm a').format(DateTime.parse('$splitOne'));
+    DateTime now = DateTime.now();
+    DateTime utc = DateTime.utc(now.year, now.month, now.day,now.hour,   now.minute,  now.second,now.millisecond,now.microsecond);
+    // final finalDifferenceInMinutes = now.difference(utc).inMinutes;
+    final finalDifferenceInSeconds = utc.difference(now).inSeconds;/* difference between ours and utc time is 329 min , reversing which will give a negative value*/
+    debugPrint('A--->$finalDifferenceInSeconds');
+    final startBasic = DateTime.parse('$splitOne').add(Duration(seconds:finalDifferenceInSeconds ));
+    final endBasic = DateTime.parse('$splitTwo').add(Duration(seconds:finalDifferenceInSeconds ));
+    final dateStart =  DateFormat('dd MMMM').format(DateTime.parse('$startBasic'));
+    final timeStart = DateFormat('hh:mm a').format(DateTime.parse('$startBasic'));
+    final dateEnd = DateFormat('dd MMMM').format(DateTime.parse('$endBasic'));
+    final timeEnd = DateFormat('hh:mm a').format(DateTime.parse('$endBasic'));
 
     final aDateTimeStart = DateTime.parse('$splitOne');
     final nowDateTime = DateTime.now();

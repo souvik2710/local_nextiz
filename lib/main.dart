@@ -5,14 +5,29 @@ import 'package:nextiz/common/properties/color.dart';
 import 'package:nextiz/routes.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nextiz/splash/layout.dart';
+import 'package:nextiz/view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'api_provider.dart';
 import 'events/layout.dart';
 import 'events/sliver_layout.dart';
 import 'login/demo.dart';
 import 'login/layout.dart';
 import 'otp/layout.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final sharedPreferences = await SharedPreferences.getInstance();
+  var localToken = sharedPreferences.getString('bearerToken')??'';
+  Map<String, String> apiLiteHeader = {
+      'content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': localToken!=''?'Bearer $localToken':'',
+  };
+  Globals.apiHeaders = apiLiteHeader;
+  // ref.read(mainBasicChangeProvider).
+  print(localToken);
+  print('CCC->${Globals.apiHeaders['Authorization']}');
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     // systemNavigationBarColor: Colors.blue, // navigation bar color
     statusBarColor: NextizColors.primaryColor,
@@ -24,11 +39,12 @@ void main() {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends HookConsumerWidget {
+
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    ref.read(mainBasicChangeProvider).mainToken = Globals.apiHeaders['Authorization']??'';
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // builder: EasyLoading.init(),

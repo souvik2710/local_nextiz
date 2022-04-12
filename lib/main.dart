@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nextiz/common/properties/color.dart';
 import 'package:nextiz/routes.dart';
@@ -44,7 +46,20 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-    ref.read(mainBasicChangeProvider).mainToken = Globals.apiHeaders['Authorization']??'';
+    String myLocalToken ='';
+    useEffect(() {
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
+        myFunction() async{
+          final sharedPreferences = await SharedPreferences.getInstance();
+          myLocalToken = sharedPreferences.getString('bearerToken')??'';
+          ref.read(mainBasicChangeProvider).mainToken = myLocalToken;
+        };
+        myFunction();
+      });
+      return () {
+        // your dispose code
+      };
+    }, []);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // builder: EasyLoading.init(),

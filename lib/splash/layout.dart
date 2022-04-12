@@ -11,6 +11,7 @@ import '../api_provider.dart';
 import '../common/widgets/main_logo.dart';
 import '../events/sliver_layout.dart';
 import '../login/layout.dart';
+import '../routes.dart';
 
 class SplashScreen extends HookConsumerWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -20,11 +21,17 @@ class SplashScreen extends HookConsumerWidget {
     useEffect(() {
       // ref.read(posChangeProvider).isCurrentOrderLoading = true;
       SchedulerBinding.instance!.addPostFrameCallback((_) {
-        Timer(Duration(seconds:3), ()=>Navigator.pushReplacement(context, MaterialPageRoute(builder:
-                    (context) {
-                      return Globals.apiHeaders['Authorization']!=''?SliverEventListPage():LoginPage();
-                    }
-                )
+        // Navigator.of(context).pushNamed(AppRoutes.events);
+        // Timer(Duration(seconds:3), ()=>Navigator.pushReplacement(context, MaterialPageRoute(builder:
+        //     (context) {
+        //   return Globals.apiHeaders['Authorization']!=''?SliverEventListPage():LoginPage();
+        //        }
+        //      )
+        //    )
+        // );
+        Timer(Duration(seconds:3), ()=>Navigator.pushReplacementNamed(context,
+            Globals.apiHeaders['Authorization']!=''?
+        AppRoutes.events:AppRoutes.login,
             )
         );
       });

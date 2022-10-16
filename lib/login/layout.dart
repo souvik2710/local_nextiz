@@ -107,6 +107,7 @@ class LoginPage extends  HookConsumerWidget{
                             //   return "Please enter a valid Email Address";
                             // }
                             // return null;
+                          //souvik.das@nvish.com, souvikdas2710@gmail.com
                         },
                       ),
                       RichText(

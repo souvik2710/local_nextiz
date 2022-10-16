@@ -48,13 +48,13 @@ class SecondaryMainWebView extends HookConsumerWidget {
             child:  ref.watch(mainBasicChangeProvider).isEventLoading || ref.watch(mainBasicChangeProvider).isProfileLoading   ?
             CircleAvatar(
               backgroundColor: NextizColors.secondaryColor,
-              radius: 26,
+              radius: 20,
             ):InkWell(onTap:()async{
               handleClick('Logout',context,ref);
             },
                 child: CircleAvatar(
                   backgroundColor: NextizColors.secondaryColor,
-                  radius:26,child: Icon(Icons.logout,color: Colors.white,),)
+                  radius:20,child: Icon(Icons.logout,color: Colors.white,size: 18,),)
             ),
           ):SizedBox(width: 0,),
 
@@ -178,7 +178,7 @@ class NavigationControls extends StatelessWidget {
                   await controller.goBack();
                 } else {
                   // ignore: deprecated_member_use
-                  Scaffold.of(context).showSnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('No back history item')),
                   );
                   return;
@@ -194,7 +194,7 @@ class NavigationControls extends StatelessWidget {
                   await controller.goForward();
                 } else {
                   // ignore: deprecated_member_use
-                  Scaffold.of(context).showSnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                         content: Text('No forward history item')),
                   );
